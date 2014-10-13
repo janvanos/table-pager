@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<head>
+<title>jQuery Table Pager - Jan van Os</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    /*
+    Jquery Table pager script
+    Jan van Os - www.janvanos.nl
+    08-07-2014
+    */
+    $(document).ready(function () {
+        // number of records per page
+        var pageSize = 5;
+        // reset current page counter on load
+        $("#hdnActivePage").val(1);
+        // calculate number of pages
+        var numberOfPages = $('table tr').length / pageSize;
+        numberOfPages = numberOfPages.toFixed();
+        // action on 'next' click
+        $("a.next").on('click', function () {
+            // show only the necessary rows based upon activePage and Pagesize
+            $("table tr:nth-child(-n+" + (($("#hdnActivePage").val() * pageSize) + pageSize) + ")").show();
+            $("table tr:nth-child(-n+" + $("#hdnActivePage").val() * pageSize + ")").hide();
+            var currentPage = Number($("#hdnActivePage").val());
+            // update activepage
+            $("#hdnActivePage").val(Number($("#hdnActivePage").val()) + 1);
+            // check if previous page button is necessary (not on first page)
+            if ($("#hdnActivePage").val() != "1") {
+                $("a.previous").show();
+                $("span").show();
+            }
+            // check if next page button is necessary (not on last page)
+            if ($("#hdnActivePage").val() == numberOfPages) {
+                $("a.next").hide();
+                $("span").hide();
+            }
+        });
+        // action on 'previous' click
+        $("a.previous").on('click', function () {
+            var currentPage = Number($("#hdnActivePage").val());
+            $("#hdnActivePage").val(currentPage - 1);
+            // first hide all rows
+            $("table tr").hide();
+            // and only turn on visibility on necessary rows
+            $("table tr:nth-child(-n+" + ($("#hdnActivePage").val() * pageSize) + ")").show();
+            $("table tr:nth-child(-n+" + (($("#hdnActivePage").val() * pageSize) - pageSize) + ")").hide();
+            // check if previous button is necessary (not on first page)
+            if ($("#hdnActivePage").val() == "1") {
+                $("a.previous").hide();
+                $("span").hide();
+            } 
+            // check if next button is necessary (not on last page)
+            if ($("#hdnActivePage").val() < numberOfPages) {
+                $("a.next").show();
+                $("span").show();
+            } 
+            if ($("#hdnActivePage").val() == 1) {
+                $("span").hide();
+            }
+        });
+    });
+</script>
+<style type="text/css">
+    a { color:Blue;cursor:pointer;text-decoration:underline; }
+    a.previous { display:none; }
+    span { display:none;color:Red; }
+    table tr { display:none; }
+    table tr:nth-child(-n+5) {display:table-row;}
+</style>
+</head>
+<body>
+    <table border="1">
+        <tr><td>1</td><td>Naam</td><td>test</td><td>test1</td></tr>
+        <tr><td>2</td><td>Naam</td><td>test</td><td>test2</td></tr>
+        <tr><td>3</td><td>Naam</td><td>test</td><td>test3</td></tr>
+        <tr><td>4</td><td>Naam</td><td>test</td><td>test4</td></tr>
+        <tr><td>5</td><td>Naam</td><td>test</td><td>test5</td></tr>
+        <tr><td>6</td><td>Naam</td><td>test</td><td>test6</td></tr>
+        <tr><td>7</td><td>Naam</td><td>test</td><td>test7</td></tr>
+        <tr><td>8</td><td>Naam</td><td>test</td><td>test8</td></tr>
+        <tr><td>9</td><td>Naam</td><td>test</td><td>test9</td></tr>
+        <tr><td>10</td><td>Naam</td><td>test</td><td>test10</td></tr>
+        <tr><td>11</td><td>Naam</td><td>test</td><td>test11</td></tr>
+        <tr><td>12</td><td>Naam</td><td>test</td><td>test12</td></tr>
+        <tr><td>13</td><td>Naam</td><td>test</td><td>test13</td></tr>
+        <tr><td>14</td><td>Naam</td><td>test</td><td>test14</td></tr>
+        <tr><td>15</td><td>Naam</td><td>test</td><td>test15</td></tr>
+        <tr><td>16</td><td>Naam</td><td>test</td><td>test16</td></tr>
+        <tr><td>17</td><td>Naam</td><td>test</td><td>test17</td></tr>
+        <tr><td>18</td><td>Naam</td><td>test</td><td>test18</td></tr>
+        <tr><td>19</td><td>Naam</td><td>test</td><td>test19</td></tr>
+        <tr><td>20</td><td>Naam</td><td>test</td><td>test20</td></tr>
+    </table>
+    <a class="previous">Previous</a><span> - </span><a class="next">Next</a>
+    <input type="hidden" id="hdnActivePage" value="1" />
+</body>
+</html>
